@@ -1,0 +1,501 @@
+/* ================================
+   GLOBAL
+================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #07090d;
+    --panel: #0d1118;
+    --panel-light: #111722;
+
+    --cyan: #00e5ff;
+    --purple: #8b5cf6;
+    --green: #00ff9d;
+    --red: #ff4d6d;
+
+    --text: #f1f5f9;
+    --muted: #64748b;
+
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    color: var(--text);
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(0, 229, 255, 0.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(139, 92, 246, 0.1),
+            transparent 30%
+        ),
+        var(--bg);
+
+    overflow: hidden;
+}
+
+
+/* ================================
+   BACKGROUND GRID
+================================ */
+
+body::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 40px 40px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        black,
+        transparent 90%
+    );
+
+    pointer-events: none;
+}
+
+
+/* ================================
+   CALCULATOR
+================================ */
+
+.calculator {
+    width: 380px;
+    max-width: 100%;
+
+    padding: 22px;
+
+    background: rgba(13, 17, 24, 0.88);
+
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.65),
+        0 0 40px rgba(0, 229, 255, 0.05);
+
+    backdrop-filter: blur(20px);
+
+    position: relative;
+}
+
+
+/* Top glowing line */
+
+.calculator::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 15%;
+
+    width: 70%;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--cyan),
+        var(--purple),
+        transparent
+    );
+
+    box-shadow:
+        0 0 12px var(--cyan);
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.calculator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    background: var(--green);
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 8px var(--green),
+        0 0 16px rgba(0, 255, 157, 0.5);
+
+    animation: pulse 2s infinite;
+}
+
+.version {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+
+/* ================================
+   DISPLAY
+================================ */
+
+.display {
+    min-height: 130px;
+
+    padding: 20px;
+
+    margin-bottom: 18px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.025),
+            rgba(0, 0, 0, 0.25)
+        );
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        inset 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+.expression {
+    width: 100%;
+
+    min-height: 25px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    text-align: right;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.result {
+    width: 100%;
+
+    margin-top: 6px;
+
+    color: var(--text);
+
+    font-size: 38px;
+    font-weight: 300;
+
+    text-align: right;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    text-shadow:
+        0 0 15px rgba(0, 229, 255, 0.2);
+}
+
+
+/* ================================
+   BUTTON GRID
+================================ */
+
+.buttons {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.btn {
+    height: 65px;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    color: var(--text);
+
+    font-size: 18px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.12s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        color 0.2s ease;
+
+    user-select: none;
+}
+
+
+/* Hover */
+
+.btn:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border-color: rgba(255, 255, 255, 0.15);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Press */
+
+.btn:active {
+    transform: scale(0.94);
+}
+
+
+/* ================================
+   NUMBER BUTTONS
+================================ */
+
+.number:hover {
+    color: var(--cyan);
+
+    border-color: rgba(0, 229, 255, 0.35);
+
+    box-shadow:
+        0 0 15px rgba(0, 229, 255, 0.08);
+}
+
+
+/* ================================
+   OPERATORS
+================================ */
+
+.operator {
+    color: var(--cyan);
+
+    background:
+        rgba(0, 229, 255, 0.055);
+}
+
+.operator:hover {
+    color: white;
+
+    background:
+        rgba(0, 229, 255, 0.12);
+
+    border-color: rgba(0, 229, 255, 0.4);
+
+    box-shadow:
+        0 0 18px rgba(0, 229, 255, 0.12);
+}
+
+
+/* ================================
+   FUNCTION BUTTONS
+================================ */
+
+.function {
+    color: var(--purple);
+
+    background:
+        rgba(139, 92, 246, 0.055);
+}
+
+.function:hover {
+    color: white;
+
+    background:
+        rgba(139, 92, 246, 0.12);
+
+    border-color: rgba(139, 92, 246, 0.4);
+
+    box-shadow:
+        0 0 18px rgba(139, 92, 246, 0.12);
+}
+
+
+/* ================================
+   EQUALS BUTTON
+================================ */
+
+.equals {
+    grid-column: span 2;
+
+    color: #001316;
+
+    font-size: 21px;
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cyan),
+            #67f7ff
+        );
+
+    border: none;
+
+    box-shadow:
+        0 0 20px rgba(0, 229, 255, 0.15);
+}
+
+.equals:hover {
+    color: #001316;
+
+    background:
+        linear-gradient(
+            135deg,
+            #67f7ff,
+            var(--cyan)
+        );
+
+    box-shadow:
+        0 0 30px rgba(0, 229, 255, 0.3);
+}
+
+
+/* ================================
+   ZERO BUTTON
+================================ */
+
+.zero {
+    grid-column: span 2;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+.calculator-footer {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 16px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    letter-spacing: 1.5px;
+}
+
+.calculator-footer span:last-child {
+    color: var(--green);
+
+    text-shadow:
+        0 0 8px rgba(0, 255, 157, 0.5);
+}
+
+
+/* ================================
+   ANIMATIONS
+================================ */
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.8);
+    }
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 420px) {
+
+    .calculator {
+        padding: 16px;
+
+        border-radius: 20px;
+    }
+
+    .btn {
+        height: 58px;
+
+        font-size: 16px;
+    }
+
+    .display {
+        min-height: 115px;
+    }
+
+    .result {
+        font-size: 32px;
+    }
+}
